@@ -34,7 +34,9 @@ public abstract class Field extends GameObjectManager{
 	if(o instanceof Sprite){
 	    Sprite s = (Sprite)o;
 	    
-	    s.accelerate(getGravity());
+	    if(s.isPhysicsEnabled()){
+		s.accelerate(getGravity());
+	    }
 	    
 	    //check if sprite is touching floor
 	    if(s.getY() + s.getHeight() >= getGround() && s.isFalling()){

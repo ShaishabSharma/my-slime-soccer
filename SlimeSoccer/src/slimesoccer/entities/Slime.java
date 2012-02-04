@@ -22,9 +22,9 @@ public class Slime extends Sprite{
     
     //slime constants
 
-    private static final float eyeElev = 30.0f;	    //degrees of elevation for eye
+    private static final float eyeElev = -30.0f;	    //degrees of elevation for eye
     private static final float eyeScale = 0.75f;    //eye distance from center proportional to radius
-    private static final float eyeSize = 0.15f;     //eye size proportional to radius
+    private static final float eyeSize = 0.20f;     //eye size proportional to radius
     private static final float slimeDensity = 3.0f; //slime density in grams/pixel
     private static final float slimeSpeed = .3f;    //slime movement speed
     private static final float jumpAccel = -.7f;     //slime jump acceleration
@@ -38,7 +38,9 @@ public class Slime extends Sprite{
 	//create the eye
 	Vector2D eyePos = new Vector2D(0f,0f);
 	eyePos.setPolar(radius * eyeScale, (facingRight)?(float)Math.toRadians(eyeElev):(float)Math.toRadians(180 - eyeElev));
-	eye = new Eye(getX(),getY(),eyePos,eyeTarget,radius * eyeSize);
+	eye = new Eye(0f,0f,eyePos,eyeTarget,radius * eyeSize);
+	
+	eye.positionEye(centerX(),centerY());
 	
 	//store whether the slime is facing right or left
 	this.facingRight = facingRight;
@@ -52,8 +54,7 @@ public class Slime extends Sprite{
 	super.update(elapsedTime);
 	
 	//position the eye
-	eye.positionEye(getX(),getY());
-	eye.update(elapsedTime);
+	eye.positionEye(centerX(),centerY());
     }
     
     public void draw(Graphics2D g) {
@@ -72,7 +73,7 @@ public class Slime extends Sprite{
     }
     
     //return the bottom point of the slime.
-    public float getCenterY(){
+    public float centerY(){
 	return getY() + getHeight();
     }
     

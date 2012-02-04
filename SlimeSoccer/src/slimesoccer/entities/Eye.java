@@ -27,7 +27,8 @@ public class Eye extends Sprite{
     
     //eye constants
     private static final float eyeDensity = 3.0f;   //density of eye in grams/pixel
-    private static final float irisScale = .5f;     //length of iris radius in proportion to eye radius 
+    private static final float irisScale = .5f;     //size of iris in proportion to eye radius
+    private static final float irisDistScale = .5f;	    //distance of iris from center of eye proportional to eye radius
     
     public Eye(float slimex,float slimey,Vector2D pos,GameObject target,float radius){
 	//eye's x and y represent the center point of the circle
@@ -38,17 +39,10 @@ public class Eye extends Sprite{
 	this.pos = pos;
 	this.target = target;
 	
-	positionEye(slimex,slimey);
-	
 	//setup iris
 	iris = new Vector2D(0f,0f);
 	irisRadius = radius * irisScale;
-	irisDist = irisRadius;
-	positionIris();
-    }
-    
-    public void update(long elapsedTime){
-	//update position of iris
+	irisDist = radius * irisDistScale;
 	positionIris();
     }
     
@@ -59,7 +53,7 @@ public class Eye extends Sprite{
 	
 	//draw the iris
 	g.setColor(Color.black);
-	g.fillArc((int)(getX() + iris.x),(int)(getY() + iris.y),(int)irisRadius * 2,(int)irisRadius * 2,0,360);
+	g.fillArc((int)(iris.x - irisRadius),(int)(iris.y - irisRadius),(int)irisRadius * 2,(int)irisRadius * 2,0,360);
     }
 
    
@@ -72,10 +66,12 @@ public class Eye extends Sprite{
 	return radius * 2;
     }
     
-    public final void positionEye(float slimex,float slimey){
+    public void positionEye(float slimex,float slimey){
 	//update position of center of eye - for target finding
-	pos.x += slimex;
-	pos.y += slimey;
+	position(pos.x + slimex,pos.y + slimey);
+	
+	//update position of iris
+	positionIris();
     }
     
     /**
@@ -86,7 +82,7 @@ public class Eye extends Sprite{
 	if(target != null){
 	    //find vector to target
 	    Vector2D scratch = Vector2D.scratch;
-	    scratch.setTo(target.getX(), target.getY());
+	    scratch.setTo(target.getX() + (target.getWidth()/2f), target.getY() + (target.getHeight()/2f));
 
 	    //subtract the eye position
 	    scratch.subtract(location);
