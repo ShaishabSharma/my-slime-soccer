@@ -20,6 +20,7 @@ public abstract class Sprite implements GameObject{
     protected float mass;
     
     private boolean collisionsenabled = true;
+    private boolean physicsenabled = true;
     private boolean expired = false;
     private boolean visible = true;
 
@@ -87,7 +88,16 @@ public abstract class Sprite implements GameObject{
 	visible = b;
     }
 
-    public boolean collisionsEnabled(){
+    public boolean isPhysicsEnabled() {
+	return physicsenabled;
+    }
+
+    public void setPhysicsEnabled(boolean physicsenabled) {
+	this.physicsenabled = physicsenabled;
+    }
+    
+    
+    public boolean areCollisionsEnabled(){
 	return collisionsenabled;
     }
 
